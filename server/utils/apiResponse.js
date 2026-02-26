@@ -1,0 +1,9 @@
+export const successResponse = (res, statusCode = 200, message, data = null) => {
+    const body = { success: true, message };
+    if (data !== null) body.data = data;
+    return res.status(statusCode).json(body);
+};
+
+export const errorResponse = (res, statusCode = 500, message) => {
+    return res.status(statusCode).json({ success: false, message });
+};
