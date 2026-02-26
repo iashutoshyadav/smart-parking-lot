@@ -1,17 +1,34 @@
 import { useState } from "react";
 
 const ToggleRow = ({ id, label, checked, onChange }) => (
-    <label htmlFor={id} className="toggle-row">
-        <span className="text-sm text-content font-display">{label}</span>
+    <label htmlFor={id} className="toggle-row group cursor-pointer">
+        <span className={`text-sm font-display transition-colors duration-200 ${checked ? "text-content" : "text-content-muted"}`}>
+            {label}
+        </span>
         <div className="relative flex-shrink-0">
             <input id={id} type="checkbox" checked={checked} onChange={onChange} className="sr-only peer" />
-            <div className="w-10 h-5 bg-line rounded-full
-        peer-focus:ring-2 peer-focus:ring-brand-500/30
-        peer-checked:bg-brand-600
-        transition-colors duration-200" />
-            <div className="absolute top-0.5 left-0.5 w-4 h-4 bg-white rounded-full shadow
-        peer-checked:translate-x-5
-        transition-transform duration-200" />
+            {/* Track */}
+            <div className={`w-11 h-6 rounded-full border transition-all duration-300
+                ${checked
+                    ? "bg-brand-600 border-brand-500 shadow-[0_0_10px_rgba(99,102,241,0.4)]"
+                    : "bg-surface border-[#2d3148]"
+                }`}
+            />
+            {/* Thumb */}
+            <div className={`absolute top-0.5 left-0.5 w-5 h-5 rounded-full shadow-md
+                transition-all duration-300 ease-in-out
+                flex items-center justify-center
+                ${checked
+                    ? "translate-x-5 bg-white"
+                    : "translate-x-0 bg-[#4a5070]"
+                }`}
+            >
+                {checked && (
+                    <svg className="w-3 h-3 text-brand-600" viewBox="0 0 12 12" fill="none">
+                        <path d="M2 6l3 3 5-5" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
+                    </svg>
+                )}
+            </div>
         </div>
     </label>
 );
@@ -60,8 +77,8 @@ const AddSlotForm = ({ onAdd }) => {
 
                 <div className="space-y-2">
                     <p className="label-sm">Features</p>
-                    <ToggleRow id="isCovered" label="🏠 Covered Parking" checked={isCovered} onChange={(e) => setIsCovered(e.target.checked)} />
-                    <ToggleRow id="isEVCharging" label="⚡ EV Charging" checked={isEVCharging} onChange={(e) => setIsEVCharging(e.target.checked)} />
+                    <ToggleRow id="isCovered" label={<span className="flex items-center gap-1.5"><svg xmlns="http://www.w3.org/2000/svg" className="w-4 h-4 text-blue-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" /><polyline points="9 22 9 12 15 12 15 22" /></svg>Covered Parking</span>} checked={isCovered} onChange={(e) => setIsCovered(e.target.checked)} />
+                    <ToggleRow id="isEVCharging" label={<span className="flex items-center gap-1.5"><svg xmlns="http://www.w3.org/2000/svg" className="w-4 h-4 text-yellow-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2" /></svg>EV Charging</span>} checked={isEVCharging} onChange={(e) => setIsEVCharging(e.target.checked)} />
                 </div>
 
                 <button type="submit" disabled={loading || !slotNo.trim()} className="btn-primary">
